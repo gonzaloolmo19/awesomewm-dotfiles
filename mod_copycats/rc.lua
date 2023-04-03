@@ -23,7 +23,6 @@ local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup")
                       require("awful.hotkeys_popup.keys")
 local mytable       = awful.util.table or gears.table -- 4.{0,1} compatibility
-
 -- }}}
 
 -- {{{ Error handling
@@ -97,7 +96,7 @@ local themes = {
     "vertex"           -- 10
 }
 
-local chosen_theme = themes[6]
+local chosen_theme = themes[7]
 local modkey       = "Mod4"
 local altkey       = "Mod1"
 local terminal     = "alacritty"
@@ -548,9 +547,10 @@ globalkeys = mytable.join(
         {description = "show rofi", group = "launcher"}),
     --]]
     -- Prompt
-    awful.key({ modkey }, "d", function () awful.util.spawn("dmenu_run") end,
-              {description = "run prompt", group = "launcher"}),
-
+    awful.key({ modkey }, "r", function () awful.util.spawn("dmenu_run") end,
+              {description = "dmenu", group = "launcher"}),
+    awful.key({ modkey }, "d", function () awful.spawn.with_shell("rofi -show drun") end,
+              {description = "rofi", group = "launcher"}),
     awful.key({ modkey }, "x",
               function ()
                   awful.prompt.run {
@@ -573,7 +573,7 @@ clientkeys = mytable.join(
             c:raise()
         end,
         {description = "toggle fullscreen", group = "client"}),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
+    awful.key({ modkey, "Control"   }, "c",      function (c) c:kill()                         end,
               {description = "close", group = "client"}),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
               {description = "toggle floating", group = "client"}),
@@ -833,3 +833,6 @@ tag.connect_signal("property::selected", backham)
 --
 
 beautiful.useless_gap=5
+awful.spawn.with_shell("nitrogen --restore &")
+awful.spawn.with_shell("picom -b &")
+

@@ -97,16 +97,16 @@ local themes = {
     "vertex"           -- 10
 }
 
-local chosen_theme = themes[5]
+local chosen_theme = themes[6]
 local modkey       = "Mod4"
 local altkey       = "Mod1"
 local terminal     = "alacritty"
 local vi_focus     = false -- vi-like client focus https://github.com/lcpz/awesome-copycats/issues/275
 local cycle_prev   = true  -- cycle with only the previously focused client or all https://github.com/lcpz/awesome-copycats/issues/274
-local editor       = os.getenv("EDITOR") or "lvim"
+local editor       = os.getenv("EDITOR") or "nvim"
 local browser      = "firefox"
 
-awful.util.terminal = alacritty
+awful.util.terminal = terminal
 awful.util.tagnames = { "1", "2", "3", "4", "5" }
 awful.layout.layouts = {
 
@@ -549,7 +549,7 @@ globalkeys = mytable.join(
     --]]
     -- Prompt
     awful.key({ modkey }, "d", function () awful.util.spawn("dmenu_run") end,
-              {description = "dmenu", group = "launcher"}),
+              {description = "run prompt", group = "launcher"}),
 
     awful.key({ modkey }, "x",
               function ()
@@ -573,7 +573,7 @@ clientkeys = mytable.join(
             c:raise()
         end,
         {description = "toggle fullscreen", group = "client"}),
-    awful.key({ altkey, modkey}, "c",      function (c) c:kill()                         end,
+    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
               {description = "close", group = "client"}),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
               {description = "toggle floating", group = "client"}),
@@ -731,7 +731,7 @@ awful.rules.rules = {
 
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = false}
+      }, properties = { titlebars_enabled = false }
     },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
@@ -830,9 +830,6 @@ client.connect_signal("unmanage", backham)
 tag.connect_signal("property::selected", backham)
 
 -- }}}
-
-
-----Custom configs
-awful.spawn.with_shell("nitrogen --restore")
+--
 
 beautiful.useless_gap=5

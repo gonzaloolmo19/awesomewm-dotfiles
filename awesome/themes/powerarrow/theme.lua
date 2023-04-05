@@ -10,6 +10,7 @@ local lain  = require("lain")
 local awful = require("awful")
 local wibox = require("wibox")
 local logout_menu_widget= require("awesome-wm-widgets.logout-menu-widget.logout-menu")
+local cmus_widget = require('awesome-wm-widgets.cmus-widget.cmus')
 
 
 local math, string, os = math, string, os
@@ -161,6 +162,9 @@ theme.volume = lain.widget.alsabar({
     --togglechannel = "IEC958,3",
     notification_preset = { font = theme.font, fg = theme.fg_normal },
 })
+local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
+
+
 
 -- MPD
 local musicplr = "urxvt -title Music -g 130x34-320+16 -e ncmpcpp"
@@ -197,6 +201,7 @@ theme.mpd = lain.widget.mpd({
         end
     end
 })
+local mpdarc_widget = require("awesome-wm-widgets.mpdarc-widget.mpdarc")
 
 -- MEM
 local memicon = wibox.widget.imagebox(theme.widget_mem)
@@ -307,7 +312,7 @@ theme.volume = lain.widget.alsa({
 local neticon = wibox.widget.imagebox(theme.widget_net)
 local net = lain.widget.net({
     settings = function()
-        widget:set_markup(markup.fontfg(theme.font, "#FEFEFE", " " .. net_now.received .. " ↓↑ " .. net_now.sent .. " "))
+        widget:set_markup(markup.fontfg(theme.font, "#FEFEFE", " " .. string.format("%.1f",net_now.received*0.008) .. " ↓↑ " .. string.format("%.1f",net_now.sent*0.008) .. " "))
     end
 })
 
@@ -404,7 +409,7 @@ function theme.at_screen_connect(s)
             --arrow(theme.bg_normal, "#343434"),
            -- wibox.container.background(wibox.container.margin(wibox.widget { mailicon, mail and mail.widget, layout = wibox.layout.align.horizontal }, 4, 7), "#343434"),
             arrow("alpha", "#7197E7"),
-            wibox.container.background(wibox.container.margin(wibox.widget { mpdicon, theme.mpd.widget, layout = wibox.layout.align.horizontal }, 3, 6), "#7197E7"),
+            wibox.container.background(wibox.container.margin(wibox.widget { mpdicon, cmus_widget(), layout = wibox.layout.align.horizontal }, 3, 6), "#7197E7"),
             arrow("#7197E7", "#A77AC4"),
             wibox.container.background(wibox.container.margin(wibox.widget { volicon, theme.volume.widget, layout = wibox.layout.align.horizontal }, 2, 3), "#A77AC4"),
             arrow("#A77AC4", "#7197E7"),

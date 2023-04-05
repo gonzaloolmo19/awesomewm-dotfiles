@@ -24,6 +24,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
                       require("awful.hotkeys_popup.keys")
 local mytable       = awful.util.table or gears.table -- 4.{0,1} compatibility
 -- }}}
+local cmus_widget = require('awesome-wm-widgets.cmus-widget.cmus')
 
 -- {{{ Error handling
 
@@ -106,17 +107,17 @@ local editor       = os.getenv("EDITOR") or "nvim"
 local browser      = "firefox"
 
 awful.util.terminal = terminal
-awful.util.tagnames = { "1", "2", "3", "4", "5" }
+awful.util.tagnames = { "Files", "Web", "Work", "Extra", "Cmus"}
 awful.layout.layouts = {
 
     awful.layout.suit.tile,
+    awful.layout.suit.spiral,
     awful.layout.suit.floating,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
     --awful.layout.suit.fair,
     --awful.layout.suit.fair.horizontal,
-    --awful.layout.suit.spiral,
     --awful.layout.suit.spiral.dwindle,
     --awful.layout.suit.max,
     --awful.layout.suit.max.fullscreen,
@@ -197,7 +198,7 @@ awful.util.mymainmenu = freedesktop.menu.build {
     }
 }
 
--- Hide the menu when the mouse leaves it
+-- Hide the menu when the mouse leavfile managert
 --[[
 awful.util.mymainmenu.wibox:connect_signal("mouse::leave", function()
     if not awful.util.mymainmenu.active_child or
@@ -551,6 +552,17 @@ globalkeys = mytable.join(
               {description = "dmenu", group = "launcher"}),
     awful.key({ modkey }, "d", function () awful.spawn.with_shell("rofi -show drun") end,
               {description = "rofi", group = "launcher"}),
+    awful.key({ modkey, altkey }, "f", function () awful.spawn("nautilus") end,
+              {description = "file manager", group = "launcher"}),
+  awful.key({ "Control", altkey }, "k", function () awful.spawn.with_shell("cmus-remote -u") end,
+              {description = "cmus pause", group = "cmus"}),
+  awful.key({ "Control", altkey }, "l", function () cmus_widget:next_track() end,
+              {description = "next song", group = "cmus"}),
+  awful.key({ "Control", altkey }, "j", function () cmus_widget:prev_track() end,
+              {description = "previous song", group = "cmus"}),
+  awful.key({ "Control", altkey }, "s", function () awful.spawn.with_shell("cmus-remote -S") end,
+              {description = "toggle shuffle", group = "cmus"}),
+
     awful.key({ modkey }, "x",
               function ()
                   awful.prompt.run {
@@ -562,6 +574,7 @@ globalkeys = mytable.join(
               end,
               {description = "lua execute prompt", group = "awesome"})
     --]]
+    
 )
 
 clientkeys = mytable.join(

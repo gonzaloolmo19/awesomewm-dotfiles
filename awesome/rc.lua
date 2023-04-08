@@ -104,7 +104,7 @@ local terminal     = "alacritty"
 local vi_focus     = false -- vi-like client focus https://github.com/lcpz/awesome-copycats/issues/275
 local cycle_prev   = true  -- cycle with only the previously focused client or all https://github.com/lcpz/awesome-copycats/issues/274
 local editor       = os.getenv("EDITOR") or "nvim"
-local browser      = "firefox"
+local browser      = "librewolf"
 
 awful.util.terminal = terminal
 awful.util.tagnames = { "Files", "Web", "Work", "Extra", "Cmus"}
@@ -562,6 +562,11 @@ globalkeys = mytable.join(
               {description = "previous song", group = "cmus"}),
   awful.key({ "Control", altkey }, "s", function () awful.spawn.with_shell("cmus-remote -S") end,
               {description = "toggle shuffle", group = "cmus"}),
+awful.key({ modkey }, ";", function () awful.spawn.with_shell("setxkbmap es") end,
+              {description = "cambiar teclado a español", group = "keyboard layout"}),
+awful.key({ modkey }, "ñ", function () awful.spawn.with_shell("setxkbmap us") end,
+              {description = "cambiar teclado a ingles", group = "keyboard layout"}),
+
 
     awful.key({ modkey }, "x",
               function ()

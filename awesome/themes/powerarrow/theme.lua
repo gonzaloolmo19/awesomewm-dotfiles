@@ -269,10 +269,11 @@ theme.fs = lain.widget.fs({
 -- Battery
 local baticon = wibox.widget.imagebox(theme.widget_battery)
 local bat = lain.widget.bat({
+    timeout=2,
     settings = function()
         if bat_now.status and bat_now.status ~= "N/A" then
             if bat_now.ac_status == 1 then
-                widget:set_markup(markup.font(theme.font, " AC "))
+                widget:set_markup(markup.font(theme.font, bat_now.perc .. "% "))
                 baticon:set_image(theme.widget_ac)
                 return
             elseif not bat_now.perc and tonumber(bat_now.perc) <= 5 then
@@ -282,7 +283,7 @@ local bat = lain.widget.bat({
             else
                 baticon:set_image(theme.widget_battery)
             end
-            widget:set_markup(markup.font(theme.font, " " .. bat_now.perc .. "% "))
+            widget:set_markup(markup.font(theme.font,  bat_now.perc .. "% "))
         else
             widget:set_markup()
             baticon:set_image(theme.widget_ac)
@@ -307,6 +308,13 @@ theme.volume = lain.widget.alsa({
         widget:set_markup(markup.font(theme.font, " Vol: " .. volume_now.level .. "% "))
     end
 })
+
+
+local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
+
+
+
+
 
 -- Net
 local neticon = wibox.widget.imagebox(theme.widget_net)
@@ -408,10 +416,12 @@ function theme.at_screen_connect(s)
             -- using separators
             --arrow(theme.bg_normal, "#343434"),
            -- wibox.container.background(wibox.container.margin(wibox.widget { mailicon, mail and mail.widget, layout = wibox.layout.align.horizontal }, 4, 7), "#343434"),
-            arrow("alpha", "#7197E7"),
-            wibox.container.background(wibox.container.margin(wibox.widget { mpdicon, cmus_widget{timeout=1}, layout = wibox.layout.align.horizontal }, 3, 6), "#7197E7"),
+            arrow("alpha", "#A77AC4"),
+            wibox.container.background(wibox.container.margin(wibox.widget { mpdicon, cmus_widget{timeout=1}, layout = wibox.layout.align.horizontal }, 3, 6), "#A77AC4"),
+	    arrow("#A77AC4", "#7197E7"),
+            wibox.container.background(wibox.container.margin(wibox.widget { volicon, theme.volume.widget ,layout = wibox.layout.align.horizontal }, 2, 3), "#7197E7"),
             arrow("#7197E7", "#A77AC4"),
-            wibox.container.background(wibox.container.margin(wibox.widget { volicon, theme.volume.widget, layout = wibox.layout.align.horizontal }, 2, 3), "#A77AC4"),
+            wibox.container.background(wibox.container.margin(wibox.widget { tempicon, temp.widget, layout = wibox.layout.align.horizontal }, 2, 3), "#A77AC4"),
             arrow("#A77AC4", "#7197E7"),
             wibox.container.background(wibox.container.margin(wibox.widget { memicon, mem.widget, layout = wibox.layout.align.horizontal }, 2, 3), "#7197E7"),
             arrow("#7197E7", "#A77AC4"),

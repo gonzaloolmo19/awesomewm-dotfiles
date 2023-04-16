@@ -471,7 +471,7 @@ globalkeys = mytable.join(
         {description = "volume 100%", group = "hotkeys"}),
     awful.key({ altkey, "Control" }, "0",
         function ()
-            os.execute(string.format("amixer -q set %s 0%%", beautiful.volume.channel))
+		    os.execute(string.format("amixer -q set %s 0%%", beautiful.volume.channel))
             beautiful.volume.update()
         end,
         {description = "volume 0%", group = "hotkeys"}),
@@ -561,12 +561,13 @@ globalkeys = mytable.join(
   awful.key({ "Control", altkey }, "j", function () cmus_widget:prev_track() end,
               {description = "previous song", group = "cmus"}),
   awful.key({ "Control", altkey }, "s", function () awful.spawn.with_shell("cmus-remote -S") end,
-              {description = "toggle shuffle", group = "cmus"}),
-awful.key({ modkey }, ";", function () awful.spawn.with_shell("setxkbmap es") end,
-              {description = "cambiar teclado a español", group = "keyboard layout"}),
-awful.key({ modkey }, "ñ", function () awful.spawn.with_shell("setxkbmap us") end,
-              {description = "cambiar teclado a ingles", group = "keyboard layout"}),
 
+              {description = "toggle shuffle", group = "cmus"}),
+	
+awful.key({}, "XF86AudioMute", function ()  os.execute(string.format("amixer -q set %s 0%%", beautiful.volume.channel))
+            beautiful.volume.update()
+        end,
+        {description = "volume 0%", group = "hotkeys"}),
 
     awful.key({ modkey }, "x",
               function ()
@@ -853,4 +854,4 @@ tag.connect_signal("property::selected", backham)
 beautiful.useless_gap=5
 awful.spawn.with_shell("nitrogen --restore &")
 awful.spawn.with_shell("picom -b &")
-
+awful.spawn.with_shell("setxkbmap es")
